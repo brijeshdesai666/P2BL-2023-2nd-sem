@@ -1,4 +1,3 @@
-// bug!! -- Convert balls into over 
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
@@ -6,7 +5,7 @@
 
 struct batsmen
 {
-    char names[100];
+    char name[100];
     int Six, Four, To_run, To_ball;
     float sr[100];
 } p1[15];
@@ -21,52 +20,70 @@ struct bowler
 int Total_runs, Total_balls, Total_fours, Total_sixs;
 int Total_over, Total_grun, Total_wickets;
 
-void calulate(int a, int b){
+void calulate(int a, int b)
+{
     for (int i = 0; i < b; i++)
     {
-        p1[i].sr[i] = (p1[i].To_run * 100.00)/p1[i].To_ball;        
-        Total_runs += p1[i].To_run; 
-        Total_balls += p1[i].To_ball; 
-        Total_fours += p1[i].Four; 
-        Total_sixs += p1[i].Six; 
+        p1[i].sr[i] = (p1[i].To_run * 100.00) / p1[i].To_ball;
+        Total_runs += p1[i].To_run;
+        Total_balls += p1[i].To_ball;
+        Total_fours += p1[i].Four;
+        Total_sixs += p1[i].Six;
     }
     for (int i = 0; i < a; i++)
     {
-        b1[i].economy[i]=b1[i].G_run/(float)b1[i].over;
+        b1[i].economy[i] = b1[i].G_run / (float)b1[i].over;
         Total_over += b1[i].over;
         Total_grun += b1[i].G_run;
         Total_wickets += b1[i].T_wic;
-    }    
+    }
 }
 
 int Extra_run;
 
-void Conditaion(){
-if (Total_runs > Total_grun)
+void Conditaion()
 {
-    printf("Your's Entered batsmen run is greater than the given run by the bowler\n");
-    printf("It's not possible any case\n");
-    printf("Please try again\n");
-    exit(0);
-    
-}else{
-    Extra_run = (Total_grun - Total_runs);
-}
+    if (Total_runs > Total_grun)
+    {
+        printf("\nYour's Entered batsmen run is greater than the given run by the bowler\n");
+        printf("It's not possible any case\n");
+        printf("Please try again\n");
+        exit(0);
+    }
+    else
+    {
+        Extra_run = (Total_grun - Total_runs);
+    }
 
-printf("\n Thank you for Entering details \n");
+    int total_ball = Total_over * 12;
+    if (total_ball < Total_balls)
+    {
+        printf("\npalyed ball by the batsmen is greater than throw ball by the bowler\n");
+        printf("\n\tPlease Try Again\n");
+        exit(0);
+    }
+
+    if (Total_wickets > 11)
+    {
+        printf("\n%d batsmen is not available in match!!\n", Total_wickets);
+        printf("Your Entering data is worong\nPlease try again!\n");
+        exit(0);
+    }
+
+    printf("\n Thank you for Entering details \n");
 }
 
 void betsmen_con()
 {
     printf("Enter name of batsmen 1");
-    scanf("%s", p1[0].names);
+    scanf("%s", p1[0].name);
     p1[0].Four = 4;
     p1[0].Six = 3;
     p1[0].To_run = 75;
     p1[0].To_ball = 20;
 
     printf("Enter name of batsmen 2");
-    scanf("%s", p1[1].names);
+    scanf("%s", p1[1].name);
     p1[1].Four = 9;
     p1[1].Six = 2;
     p1[1].To_run = 89;
@@ -74,7 +91,7 @@ void betsmen_con()
 }
 
 void bowler_con()
-{    
+{
     printf("Enter name of bowler 1");
     scanf("%s", b1[0].name);
     b1[0].G_run = 4;
@@ -84,24 +101,32 @@ void bowler_con()
 
 void batsmen_details(int b)
 {
-    char names[100];
+    int sixfour;
     for (int i = 0; i < b; i++)
     {
         printf("Enter name of batsmen %d\n", i + 1);
-        scanf("%s", p1[i].names);
-        
+        scanf("%s", p1[i].name);
+
         printf("Enter the number of four scored by player %d:\n", i + 1);
         scanf("%d", &p1[i].Four);
 
         printf("Enter the number of six scored by player %d:\n", i + 1);
         scanf("%d", &p1[i].Six);
 
+        sixfour = ((p1[i].Four * 4) + (p1[i].Six * 6));
+
         printf("Enter the Total run of player %d:\n", i + 1);
         scanf("%d", &p1[i].To_run);
 
+        if (sixfour > p1[i].To_run)
+        {
+            printf("six and four is greater than the total run of this player!!!It's Not Possible\n");
+            printf("\n\tPlease Try Again\n\nyt");
+            exit(0);
+        }
+
         printf("Enter the number of balls played by the player %d:\n", i + 1);
         scanf("%d", &p1[i].To_ball);
-        
     }
 }
 
@@ -109,13 +134,12 @@ void bowler_details(int a)
 {
     for (int i = 0; i < a; i++)
     {
-        printf("Enter the bolwer name\n");
+        printf("Enter name of bowler %d:\n", i + 1);
         scanf("%s", b1[i].name);
-        
 
         printf("Enter the runs given by the bowler %d:\n", i + 1);
         scanf("%d", &b1[i].G_run);
-        
+
         printf("Enter the overs bowled by the bowler %d:\n", i + 1);
         scanf("%d", &b1[i].over);
 
@@ -126,30 +150,31 @@ void bowler_details(int a)
 
 void show_batesmen_details(int b)
 {
-    
+
     printf("                          batesmen Detail\n");
     printf("===========================================================================\n");
     printf(" Batsman        runs           balls        fours       sixes         sr   \n");
-    printf("===========================================================================\n");  
+    printf("===========================================================================\n");
     for (int i = 0; i < b; i++)
     {
-        printf(" %-14s %-14d %-13d %-11d %-11d %.2f\n",p1[i].names, p1[i].To_run, p1[i].To_ball,  p1[i].Four, p1[i].Six, p1[i].sr[i]);
+        printf(" %-14s %-14d %-13d %-11d %-11d %.2f\n", p1[i].name, p1[i].To_run, p1[i].To_ball, p1[i].Four, p1[i].Six, p1[i].sr[i]);
     }
-    
 }
 
-void show_bowler_details(int a){
+void show_bowler_details(int a)
+{
     printf("                           bowler Detail\n");
     printf("=================================================================\n");
     printf(" Bowler        overs          runs         wicket       economy\n");
     printf("=================================================================\n");
     for (int i = 0; i < a; i++)
     {
-        printf(" %-14s %-14d %-13d %-11d %.2f\n",b1[i].name, b1[i].over, b1[i].G_run,  b1[i].T_wic, b1[i].economy[i]);
+        printf(" %-14s %-14d %-13d %-11d %.2f\n", b1[i].name, b1[i].over, b1[i].G_run, b1[i].T_wic, b1[i].economy[i]);
     }
 }
 
-void Match_summary(int a, int b){
+void Match_summary(int a, int b)
+{
     char total[6] = "TOTAL";
 
     printf("\n\n");
@@ -158,12 +183,46 @@ void Match_summary(int a, int b){
 
     printf("\n\n\n");
     show_bowler_details(a);
-    printf("\n %-14s %-14d %-13d %-11d\n",total, Total_over, Total_grun, Total_wickets);
-    printf("\n\t\tEXTRA RUN: %d\n",Extra_run);
+    printf("\n %-14s %-14d %-13d %-11d\n", total, Total_over, Total_grun, Total_wickets);
+    printf("\n\t\tEXTRA RUN: %d\n", Extra_run);
     printf("\n");
 }
 
+void record(int a)
+{
+    int max_run = 0, max_six = 0, max_four = 0, max_W = 0;
+    for (int i = 0; i < a; i++)
+    {
+        if (max_run < p1[i].To_run)
+        {
+            max_run = p1[i].To_run;
+        }
 
+        if (max_four < p1[i].Four)
+        {
+            max_four = p1[i].Four;
+        }
+
+        if (max_six < p1[i].Six)
+        {
+            max_six = p1[i].Six;
+        }
+
+        if (max_W < b1[i].T_wic)
+        {
+            max_W = b1[i].T_wic;
+        }
+    }
+    printf("\n\n");
+    printf("Highest runs scored by the batsman:%d\n", max_run);
+
+    printf("Maximum fours scored by the batsman:%d\n", max_four);
+
+    printf("Maximum sixes scored by the batsman%d:\n", max_six);
+
+    printf("Maximum wickets taken by the bowler:%d\n", max_W);
+    printf("\n\n");
+}
 
 int main()
 {
@@ -171,9 +230,9 @@ int main()
 
     printf("\n   Enter batsmen details\n");
 
-    batsmen:
+batsmen:
     printf("Enter the how many batsmen\n");
-    scanf("%d",&b);
+    scanf("%d", &b);
     if (b > 11)
     {
         printf("\n   Please enter valid batsmen(MAXIMUM - 11)\n");
@@ -182,13 +241,11 @@ int main()
     batsmen_details(b);
     // betsmen_con();
 
-
-
     printf("\n\n   Enter blower dettails\n");
 
-    bowler:
+bowler:
     printf("Enter the how many bowler bolwer\n");
-    scanf("%d",&a);
+    scanf("%d", &a);
     if (a > 11)
     {
         printf("\n   Please enter valid bowler(MAXIMUM - 11)\n");
@@ -197,9 +254,8 @@ int main()
     bowler_details(a);
     // bowler_con();
 
-    calulate(a,b);
+    calulate(a, b);
     Conditaion();
-    
 
     do
     {
@@ -211,7 +267,6 @@ int main()
         printf("Enter '0' for exit\n");
         scanf("%d", &choice);
 
-        
         switch (choice)
         {
         case 0:
@@ -223,8 +278,10 @@ int main()
             show_bowler_details(a);
             break;
         case 3:
-            Match_summary(a,b);
+            Match_summary(a, b);
             break;
+        case 4:
+            record(b);
         default:
             break;
         }
