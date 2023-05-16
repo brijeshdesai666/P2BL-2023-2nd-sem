@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <conio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -19,87 +18,9 @@ struct bowler
 
 int Total_runs, Total_balls, Total_fours, Total_sixs;
 int Total_over, Total_grun, Total_wickets;
-
-void calulate(int a, int b)
-{
-    for (int i = 0; i < b; i++)
-    {
-        p1[i].sr[i] = (p1[i].To_run * 100.00) / p1[i].To_ball;
-        Total_runs += p1[i].To_run;
-        Total_balls += p1[i].To_ball;
-        Total_fours += p1[i].Four;
-        Total_sixs += p1[i].Six;
-    }
-    for (int i = 0; i < a; i++)
-    {
-        b1[i].economy[i] = b1[i].G_run / (float)b1[i].over;
-        Total_over += b1[i].over;
-        Total_grun += b1[i].G_run;
-        Total_wickets += b1[i].T_wic;
-    }
-}
-
 int Extra_run;
 
-void Conditaion()
-{
-    if (Total_runs > Total_grun)
-    {
-        printf("\nYour's Entered batsmen run is greater than the given run by the bowler\n");
-        printf("It's not possible any case\n");
-        printf("Please try again\n");
-        exit(0);
-    }
-    else
-    {
-        Extra_run = (Total_grun - Total_runs);
-    }
-
-    int total_ball = Total_over * 12;
-    if (total_ball < Total_balls)
-    {
-        printf("\npalyed ball by the batsmen is greater than throw ball by the bowler\n");
-        printf("\n\tPlease Try Again\n");
-        exit(0);
-    }
-
-    if (Total_wickets > 11)
-    {
-        printf("\n%d batsmen is not available in match!!\n", Total_wickets);
-        printf("Your Entering data is worong\nPlease try again!\n");
-        exit(0);
-    }
-
-    printf("\n Thank you for Entering details \n");
-}
-
-void betsmen_con()
-{
-    printf("Enter name of batsmen 1");
-    scanf("%s", p1[0].name);
-    p1[0].Four = 4;
-    p1[0].Six = 3;
-    p1[0].To_run = 75;
-    p1[0].To_ball = 20;
-
-    printf("Enter name of batsmen 2");
-    scanf("%s", p1[1].name);
-    p1[1].Four = 9;
-    p1[1].Six = 2;
-    p1[1].To_run = 89;
-    p1[1].To_ball = 27;
-}
-
-void bowler_con()
-{
-    printf("Enter name of bowler 1");
-    scanf("%s", b1[0].name);
-    b1[0].G_run = 4;
-    b1[0].over = 3;
-    b1[0].T_wic = 2;
-}
-
-void batsmen_details(int b)
+void Batsmen_Details(int b)
 {
     int sixfour;
     for (int i = 0; i < b; i++)
@@ -130,7 +51,7 @@ void batsmen_details(int b)
     }
 }
 
-void bowler_details(int a)
+void Bowler_Details(int a)
 {
     for (int i = 0; i < a; i++)
     {
@@ -147,11 +68,68 @@ void bowler_details(int a)
         scanf("%d", &b1[i].T_wic);
     }
 }
+void calulate(int a, int b)
+{
+    for (int i = 0; i < b; i++)
+    {
+        p1[i].sr[i] = (p1[i].To_run * 100.00) / p1[i].To_ball;
+        Total_runs += p1[i].To_run;
+        Total_balls += p1[i].To_ball;
+        Total_fours += p1[i].Four;
+        Total_sixs += p1[i].Six;
+    }
+    for (int i = 0; i < a; i++)
+    {
+        b1[i].economy[i] = b1[i].G_run / (float)b1[i].over;
+        Total_over += b1[i].over;
+        Total_grun += b1[i].G_run;
+        Total_wickets += b1[i].T_wic;
+    }
+}
 
-void show_batesmen_details(int b)
+void Conditaion(int a, int b)
+{
+    if (Total_runs > Total_grun)
+    {
+        printf("\nYour's Entered batsmen run is greater than the given run by the bowler\n");
+        printf("It's not possible any case\n");
+        printf("Please try again\n");
+        exit(0);
+    }
+    else
+    {
+        Extra_run = (Total_grun - Total_runs);
+    }
+
+    int total_ball = Total_over * 12;
+    if (total_ball < Total_balls)
+    {
+        printf("\npalyed ball by the batsmen is greater than throw ball by the bowler\n");
+        printf("\n\tPlease Try Again\n");
+        exit(0);
+    }
+
+    if (Total_wickets > 11)
+    {
+        printf("\n%d batsmen is not available in match!!\n", Total_wickets);
+        printf("Your Entering data is worong\nPlease try again!\n");
+        exit(0);
+    }
+
+    if (b < Total_wickets)
+    {
+        printf("\nTotal batsmen is %d and Total wickets taken by the bowler is %d\n", b, Total_wickets);
+        printf("This is not possible\nPlease try again!\n");
+        exit(0);
+    }
+
+    printf("\n Thank you for Entering details \n");
+}
+
+void Show_Batesmen_Details(int b)
 {
 
-    printf("                          batesmen Detail\n");
+    printf("\n\n                          batesmen Detail\n");
     printf("===========================================================================\n");
     printf(" Batsman        runs           balls        fours       sixes         sr   \n");
     printf("===========================================================================\n");
@@ -161,34 +139,34 @@ void show_batesmen_details(int b)
     }
 }
 
-void show_bowler_details(int a)
+void Show_Bowler_Details(int a)
 {
-    printf("                           bowler Detail\n");
+    printf("\n\n                           bowler Detail\n");
     printf("=================================================================\n");
-    printf(" Bowler        overs          runs         wicket       economy\n");
+    printf(" Bowler         runs          over         wicket       economy\n");
     printf("=================================================================\n");
     for (int i = 0; i < a; i++)
     {
-        printf(" %-14s %-14d %-13d %-11d %.2f\n", b1[i].name, b1[i].over, b1[i].G_run, b1[i].T_wic, b1[i].economy[i]);
+        printf(" %-14s %-14d %-13d %-11d %.2f\n", b1[i].name, b1[i].G_run, b1[i].over, b1[i].T_wic, b1[i].economy[i]);
     }
 }
 
-void Match_summary(int a, int b)
+void Match_Summary(int a, int b)
 {
     char total[6] = "TOTAL";
 
     printf("\n\n");
-    show_batesmen_details(b);
+    Show_Batesmen_Details(b);
     printf("\n %-14s %-14d %-13d %-11d %-11d\n", total, Total_runs, Total_balls, Total_fours, Total_sixs);
 
     printf("\n\n\n");
-    show_bowler_details(a);
+    Show_Bowler_Details(a);
     printf("\n %-14s %-14d %-13d %-11d\n", total, Total_over, Total_grun, Total_wickets);
     printf("\n\t\tEXTRA RUN: %d\n", Extra_run);
     printf("\n");
 }
 
-void record(int a)
+void Match_Record(int a)
 {
     int max_run = 0, max_six = 0, max_four = 0, max_W = 0;
     for (int i = 0; i < a; i++)
@@ -214,13 +192,13 @@ void record(int a)
         }
     }
     printf("\n\n");
-    printf("Highest runs scored by the batsman:%d\n", max_run);
+    printf("\tHighest runs scored by the batsman:  %d\n\n", max_run);
 
-    printf("Maximum fours scored by the batsman:%d\n", max_four);
+    printf("\tMaximum fours scored by the batsman: %d\n\n", max_four);
 
-    printf("Maximum sixes scored by the batsman%d:\n", max_six);
+    printf("\tMaximum sixes scored by the batsman: %d\n\n", max_six);
 
-    printf("Maximum wickets taken by the bowler:%d\n", max_W);
+    printf("\tMaximum wickets taken by the bowler: %d\n\n", max_W);
     printf("\n\n");
 }
 
@@ -238,8 +216,7 @@ batsmen:
         printf("\n   Please enter valid batsmen(MAXIMUM - 11)\n");
         goto batsmen;
     }
-    batsmen_details(b);
-    // betsmen_con();
+    Batsmen_Details(b);
 
     printf("\n\n   Enter blower dettails\n");
 
@@ -251,11 +228,10 @@ bowler:
         printf("\n   Please enter valid bowler(MAXIMUM - 11)\n");
         goto bowler;
     }
-    bowler_details(a);
-    // bowler_con();
+    Bowler_Details(a);
 
     calulate(a, b);
-    Conditaion();
+    Conditaion(a, b);
 
     do
     {
@@ -272,16 +248,20 @@ bowler:
         case 0:
             exit(0);
         case 1:
-            show_batesmen_details(b);
+            system("cls");
+            Show_Batesmen_Details(b);
             break;
         case 2:
-            show_bowler_details(a);
+            system("cls");
+            Show_Bowler_Details(a);
             break;
         case 3:
-            Match_summary(a, b);
+            system("cls");
+            Match_Summary(a, b);
             break;
         case 4:
-            record(b);
+            system("cls");
+            Match_Record(b);
         default:
             break;
         }
